@@ -12,7 +12,7 @@ public class ApiHelper {
     public static PublicApi getPublicApi() {
         if (publicApi == null) {
             RestAdapter.Builder builder = new RestAdapter.Builder();
-            builder.setEndpoint("http://rslbrasov.rosoftlab.net:6036");
+            builder.setEndpoint("https://phone-hash.herokuapp.com");
 
             RestAdapter adapter = builder.build();
             publicApi = adapter.create(PublicApi.class);

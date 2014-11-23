@@ -16,9 +16,7 @@ public interface PublicApi {
     @GET("/test")
     void test(Callback<String> cb);
 
-    @FormUrlEncoded
-    @POST("/regId")
-    void sendRegId(@Field("regId") String regId, Callback<JsonElement> callback);
+
 
     @FormUrlEncoded
     @POST("/messages")
@@ -27,4 +25,9 @@ public interface PublicApi {
 
     @GET("/messages")
     void getMessages(@Query("hash") String hash, Callback<String[]> callback);
+
+    @FormUrlEncoded
+    @POST("/test_push")
+    void testPush(@Field("regId") String regId, Callback<JsonElement> callback);
+
 }
