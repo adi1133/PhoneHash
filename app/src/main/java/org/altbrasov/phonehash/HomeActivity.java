@@ -3,7 +3,6 @@ package org.altbrasov.phonehash;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,7 +68,7 @@ public class HomeActivity extends Activity implements View.OnClickListener {
     private void sendMessage(final String message) {
         sendButton.setText("sending");
         sendButton.setEnabled(false);
-        api.sendMessage(message, new Callback<JsonElement>(){
+        api.sendMessage(message, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement jsonElement, Response response) {

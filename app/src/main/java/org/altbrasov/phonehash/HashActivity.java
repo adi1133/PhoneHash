@@ -2,13 +2,17 @@ package org.altbrasov.phonehash;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.regex.Pattern;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -38,13 +42,16 @@ public class HashActivity extends Activity implements Callback<String[]> {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        if (extras != null) {
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri hashUri = getIntent().getData();
+            hash = hashUri.toString().substring("phonehash://".length());
+        } else if (extras != null) {
             hash = extras.getString(EXTRA_HASH);
         }
 
 
         if (!TextUtils.isEmpty(hash)) {
-            if(!hash.startsWith("#"))
+            if (!hash.startsWith("#"))
                 hash = "#" + hash;
             api.getMessages(hash, this);
         }
@@ -85,6 +92,10 @@ public class HashActivity extends Activity implements Callback<String[]> {
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView textView = new TextView(HashActivity.this);
             textView.setText(getItem(position));
+
+            Pattern pattern = Pattern.compile("#\\w+");
+            Linkify.addLinks(textView, pattern, "phonehash://");
+
             return textView;
         }
 
