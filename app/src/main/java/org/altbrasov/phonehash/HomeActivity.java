@@ -44,6 +44,31 @@ public class HomeActivity extends Activity implements View.OnClickListener {
         api = ApiHelper.getPublicApi();
     }
 
+    //to a push notification test  on resume :)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean playServicesOk = GcmHelper.checkPlayServices(this);
+        if (playServicesOk)
+            GcmHelper.getAndGenerateRegId(this, new GcmHelper.GenerateRegIdListener() {
+                @Override
+                public void onGeneratedRegId(String regId) {
+                    ApiHelper.getPublicApi().testPush(regId, new Callback<JsonElement>() {
+                        @Override
+                        public void success(JsonElement jsonElement, Response response) {
+
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                        }
+                    });
+                }
+            });
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
